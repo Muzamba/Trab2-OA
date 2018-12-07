@@ -2,10 +2,12 @@
 #define ARVORE_B_H
 #define ORDEM 5
 #define REG_SIZE 81
-#define DATA_SIZE 
+#define PRIM_CHAVE 2
+#define TAM_CHAVE 17
 
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 enum CHAVE{
     CHAVE_1,
@@ -27,14 +29,10 @@ struct Node{
 
 class ArvoreB {
 public:
-//    const char* nome_do_arquivo;
 
     ArvoreB(const char* nome_do_arquivo);
     ~ArvoreB();
 
-//    void inOpen();
-//    void ouOpen();
-//    void close();
     void insert(const char* item);
     void setNode();
     void addToArq(int indice);
@@ -44,5 +42,8 @@ public:
     int raiz;
 };
 
+void insere(std::string pagina, const char* item);
+
+bool minhaComp(std::string a, std::string b);
 
 #endif

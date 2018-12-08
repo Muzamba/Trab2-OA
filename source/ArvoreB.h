@@ -1,13 +1,14 @@
 #ifndef ARVORE_B_H
 #define ARVORE_B_H
 #define ORDEM 5
-#define REG_SIZE 81
-#define PRIM_CHAVE 2
+#define REG_SIZE 83
+#define PRIM_CHAVE 4
 #define TAM_CHAVE 17
 
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 enum CHAVE{
     CHAVE_1,
@@ -36,14 +37,18 @@ public:
     void insert(const char* item);
     void setNode();
     void addToArq(int indice);
+    void make_Btree(const char* filename);
 
     Node no1, no2;
     std::fstream bTree;
     int raiz;
 };
 
-void insere(std::string pagina, const char* item);
+void insereNaFolha(std::string* pagina, const char* item);
 
 bool minhaComp(std::string a, std::string b);
+
+void printArq();
+
 
 #endif

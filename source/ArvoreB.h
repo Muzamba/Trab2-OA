@@ -38,6 +38,7 @@ public:
     void setNode();
     void addToArq(int indice);
     void make_Btree(const char* filename);
+    void busca(const char* chave, int referencia);
 
     Node no1, no2;
     std::fstream bTree;

@@ -4,7 +4,7 @@ ArvoreB::ArvoreB(const char* nome_do_arquivo) {
     bTree.open(nome_do_arquivo);
     bTree << "1|0|";
     for(int i = 0; i < ORDEM - 1;i++) {
-        bTree <<"####|********|";
+        bTree <<"0001|********|";
     }
     bTree << "####|####\n";
     raiz = 0;
@@ -102,7 +102,7 @@ void printArq() {
     system("cat indicelista.bt");
 }
 
-void ArvoreB::make_Btree(const char* filename) {
+void ArvoreB::  make_Btree(const char* filename) {
     FILE* fp = fopen(filename, "r");
     int cont = 0, index = 0;
     char c;
@@ -132,4 +132,40 @@ void ArvoreB::make_Btree(const char* filename) {
     } 
 
     fclose(fp);
+}
+
+void ArvoreB::busca(const char* chave, int referencia) {
+    std::string pagina,aux, endereco, chave_temp;
+    int comp;
+
+    bTree.seekp(referencia * REG_SIZE);
+    bTree >> pagina;
+    for (int i = 0; i < ORDEM - 1; i++) {
+        aux = pagina.substr(4 + TAM_CHAVE*i, 14);
+        endereco = aux.substr(0, 4);
+        chave_temp = aux.substr(5, 8);
+        //std::cout << "Endereço: " << endereco << " Chave_temp: " << chave_temp << std::endl;
+        comp = chave_temp.compare(chave);
+
+        if (comp == 0) {
+            std::cout << "Você achou a chave! 1" << std::endl;
+            return;
+        } else if (comp > 0) {
+            std::cout << "A chave está na pag apontada pela esquerda 2" << std::endl;
+            if (!endereco.compare("####")) {
+                std::cout << "O elemento não existe 3" << std::endl;
+                return;
+            }
+            ArvoreB::busca(chave, std::stoi(endereco));
+
+        } else if (comp < 0) {
+            std::cout << "Ir para o elemento da direita 4" << std::endl;
+        }
+
+        if (i == ORDEM-2) {
+            std::cout << "O elemento não existe 5" << std::endl;
+            return;
+        }
+    }
+    
 }

@@ -6,8 +6,9 @@ int main(int argc, char const *argv[])
 
     arvore = new ArvoreB("sla.txt");
 
-    arvore->insert("abc87654321");
-    arvore->insert("def12345678");
+    arvore->insert("def12345");
+    arvore->insert("abc87654");
+    
     printf("\n");
 
     delete arvore;

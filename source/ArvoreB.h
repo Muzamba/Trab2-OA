@@ -1,9 +1,9 @@
 #ifndef ARVORE_B_H
 #define ARVORE_B_H
 #define ORDEM 5
-#define REG_SIZE 83
+#define REG_SIZE 70
 #define PRIM_CHAVE 4
-#define TAM_CHAVE 17
+#define TAM_CHAVE 14
 
 #include <fstream>
 #include <vector>
@@ -45,6 +45,7 @@ public:
 };
 
 void insereNaFolha(std::string* pagina, const char* item);
+std::string insereComPromo(std::string* pagina, const char* item);
 
 bool minhaComp(std::string a, std::string b);
 

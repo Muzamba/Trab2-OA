@@ -4,9 +4,9 @@ ArvoreB::ArvoreB(const char* nome_do_arquivo) {
     bTree.open(nome_do_arquivo);
     bTree << "1|0|";
     for(int i = 0; i < ORDEM - 1;i++) {
-        bTree <<"####|***********|";
+        bTree <<"####|********|";
     }
-    bTree << "####||####\n";
+    bTree << "####|####\n";
     raiz = 0;
 }
 
@@ -19,7 +19,8 @@ void ArvoreB::insert(const char* item) {
     auto aux = raiz;
     bool is_ON = true;
     int isFolha;
-    int numero;
+    int quantidade;
+
 
     while (is_ON) {
         bTree.seekp(aux * REG_SIZE);
@@ -27,21 +28,38 @@ void ArvoreB::insert(const char* item) {
         bTree.seekp(aux * REG_SIZE);
         sAux = pagina.substr(0, 1);
         isFolha = std::stoi(sAux);
+        sAux = pagina.substr(2, 1);
+        quantidade = std::stoi(sAux);
         if (isFolha) {
-            insereNaFolha(&pagina, item);
-            //sAux
-            std::cout << pagina;
-            bTree << pagina;
-            is_ON = false;
+            if(quantidade < (ORDEM - 1)) {
+                insereNaFolha(&pagina, item);
+                //std::cout << pagina;
+                pagina.at(2)++;
+                bTree << pagina;
+                is_ON = false;
+            } else {
+                //chave e promovida
+                //insereComPromo();
+            }
         } else {
             sAux = item;
             for (int i = 0;i < ORDEM - 1;i++) {
-                
-                //if()
+                if(pagina.substr(PRIM_CHAVE + (i * TAM_CHAVE) + 5, 8).compare(sAux) > 0) {
+                    sAux = pagina.substr(PRIM_CHAVE + (i * TAM_CHAVE), 4);
+                    aux = std::stoi(sAux);
+                    break;
+                } else if((pagina.substr(PRIM_CHAVE + (i * TAM_CHAVE) + 5, 8).compare(sAux) == 0)) {
+                    std::cout << "Esta chave ja esta na arvore, logo n~ao foi possivel a inserç~ao" << std::endl;
+                    return ;
+                }
             }
 
         }
     }
+}
+
+std::string insereComPromo(std::string* pagina, const char* item) {
+
 }
 
 void ArvoreB::addToArq(int indice){
@@ -58,7 +76,7 @@ void insereNaFolha(std::string* pagina, const char* item) {
             procurando = false;
         }
     }
-    chaves[local].replace(5, 11, item);
+    chaves[local].replace(5, 8, item);
     std::sort(chaves.begin(), chaves.end(), minhaComp);
 
     for (int i = 0;i < ORDEM - 1;i++) {
@@ -70,7 +88,7 @@ bool minhaComp(std::string a, std::string b) {
     std::string auxA, auxB;
     auxA = a.substr(5, 11);
     auxB = b.substr(5, 11);
-    if(auxA == "***********"){
+    if(auxA[0] == '*'){
         return false;
     }
     return auxA.compare(auxB) < 0;
